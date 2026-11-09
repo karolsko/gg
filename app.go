@@ -78,6 +78,10 @@ type app struct {
 	cloneName     string
 	cloneNameAuto bool
 
+	// pendingPath is a file or directory passed on the command line before
+	// the window exists.
+	pendingPath string
+
 	discardOpen      bool
 	discardPath      string
 	discardUntracked bool
@@ -204,6 +208,25 @@ func (a *app) newRepository() {
 		}
 		a.post(func() { a.setRepo(dir) })
 	}()
+}
+
+// openFromLaunch focuses the window and opens the repository named by a
+// later invocation of gg. It runs on the main thread.
+func (a *app) openFromLaunch(args []string, workingDir string) {
+	if a.win != nil {
+		a.win.Restore()
+		a.win.Show()
+		a.win.Focus()
+	}
+	path, help, err := launchPath(args, workingDir)
+	if help || (path == "" && err == nil) {
+		return
+	}
+	if err != nil {
+		a.toast(err.Error())
+		return
+	}
+	a.openPath(path)
 }
 
 func (a *app) openPath(p string) {

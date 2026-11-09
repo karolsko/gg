@@ -3,6 +3,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"runtime"
@@ -12,7 +13,27 @@ import (
 )
 
 func main() {
+	open, help, err := launchPath(os.Args[1:], "")
+	if help {
+		fmt.Fprint(os.Stdout, usageText)
+		return
+	}
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		fmt.Fprint(os.Stderr, usageText)
+		os.Exit(2)
+	}
+
 	a := newApp()
+	a.pendingPath = open
+	mygo.App.SetName("gg")
+	// A later `gg path` hands the path to the app that is already open.
+	if !mygo.App.RequestSingleInstanceLock() {
+		return
+	}
+	mygo.App.OnSecondInstance(func(args []string, workingDir string) {
+		a.openFromLaunch(args, workingDir)
+	})
 	mygo.App.SetMenu(a.menu())
 	mygo.App.WhenReady(func() {
 		a.loadPrefs()
@@ -31,8 +52,9 @@ func main() {
 			}
 		})
 		switch {
-		case len(os.Args) > 1:
-			a.openPath(os.Args[1])
+		case a.pendingPath != "":
+			a.openPath(a.pendingPath)
+			a.pendingPath = ""
 		case len(a.recents) > 0:
 			if _, err := os.Stat(a.recents[0]); err == nil {
 				a.openPath(a.recents[0])
