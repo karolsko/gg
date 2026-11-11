@@ -10,6 +10,8 @@ import (
 
 type prefs struct {
 	Recents  []string `json:"recents"`
+	Last     string   `json:"last"`
+	Repos    float32  `json:"repos"`
 	Sidebar  float32  `json:"sidebar"`
 	Changes  float32  `json:"changes"`
 	History  float32  `json:"history"`
@@ -22,6 +24,10 @@ func (a *app) loadPrefs() {
 		return
 	}
 	a.recents = p.Recents
+	a.lastRepo = p.Last
+	if p.Repos >= 160 && p.Repos <= 420 {
+		a.reposW = p.Repos
+	}
 	if p.Sidebar >= 160 && p.Sidebar <= 480 {
 		a.sidebarW = p.Sidebar
 	}
@@ -39,6 +45,8 @@ func (a *app) loadPrefs() {
 func (a *app) savePrefs() {
 	p := prefs{
 		Recents:  a.recents,
+		Last:     a.repoPath,
+		Repos:    a.reposW,
 		Sidebar:  a.sidebarW,
 		Changes:  a.changesW,
 		History:  a.histPercent,
@@ -47,16 +55,46 @@ func (a *app) savePrefs() {
 	_ = writePrefs(p)
 }
 
+// remember adds path to the repository list. Opening it again leaves its place.
 func (a *app) remember(path string) {
-	next := []string{path}
 	for _, old := range a.recents {
-		if old == path || len(next) == 12 {
-			continue
+		if old == path {
+			a.savePrefs()
+			return
 		}
-		next = append(next, old)
+	}
+	a.recents = append(a.recents, path)
+	a.savePrefs()
+}
+
+// forget removes path from the list. The files on disk stay.
+func (a *app) forget(path string) {
+	next := make([]string, 0, len(a.recents))
+	for _, old := range a.recents {
+		if old != path {
+			next = append(next, old)
+		}
 	}
 	a.recents = next
+	if a.repoPath == path {
+		a.closeRepo()
+	}
 	a.savePrefs()
+}
+
+// startupRepo is the repository to show when the app opens.
+func (a *app) startupRepo() string {
+	if a.lastRepo != "" {
+		if _, err := os.Stat(a.lastRepo); err == nil {
+			return a.lastRepo
+		}
+	}
+	for _, path := range a.recents {
+		if _, err := os.Stat(path); err == nil {
+			return path
+		}
+	}
+	return ""
 }
 
 func prefsFile() (string, error) {

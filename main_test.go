@@ -64,6 +64,21 @@ func TestHistoryShell(t *testing.T) {
 	}
 }
 
+func TestRepoList(t *testing.T) {
+	a := newApp()
+	a.recents = []string{"/work/alpha", "/work/beta"}
+	a.repoPath = "/work/alpha"
+	a.repoName = "alpha"
+	a.nav = "changes"
+	a.status = gitx.Status{Head: "main"}
+	tt := ui.NewTester(a.view, 1200, 800)
+	for _, want := range []string{"Repositories", "alpha", "beta", "/work/beta"} {
+		if !tt.HasText(want) {
+			t.Fatalf("missing %q in %q", want, tt.Texts())
+		}
+	}
+}
+
 func TestWelcome(t *testing.T) {
 	a := newApp()
 	tt := ui.NewTester(a.view, 1100, 720)
