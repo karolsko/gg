@@ -1,0 +1,73 @@
+version: 1
+project_name: gg
+
+metadata:
+  license: MIT
+  description: A fast Git client
+  homepage: https://github.com/karolsko/gg
+
+git:
+  ignore_tags:
+    - '^nightly$'
+
+versioning:
+  conventional_commits: true
+  tag_prefix: v
+
+before:
+  hooks:
+    - go test ./...
+
+builds:
+  - id: gg
+    main: .
+    binary: gg
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
+
+archives:
+  - formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - LICENSE
+
+checksum:
+  name_template: checksums.txt
+
+nfpms:
+  - package_name: gg
+    maintainer: Karol Skoczyk <karolsko@users.noreply.github.com>
+    formats: [deb, rpm, apk]
+    contents:
+      - src: LICENSE
+        dst: /usr/share/licenses/gg/LICENSE
+
+installers:
+  - name: gg
+    identifier: dev.karolsko.gg
+    formats: [pkg, nsis]
+
+changelog:
+  sort: asc
+  groups:
+    - title: Features
+      regexp: '^feat'
+    - title: Fixes
+      regexp: '^fix'
+  filters:
+    exclude:
+      - '^docs:'
+      - '^chore:'
+
+release:
+  github:
+    owner: karolsko
+    name: gg
