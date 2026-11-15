@@ -53,7 +53,7 @@ nfpms:
 installers:
   - name: gg
     identifier: dev.karolsko.gg
-    formats: [pkg, nsis]
+    formats: [pkg, dmg, nsis]
 
 changelog:
   sort: asc
