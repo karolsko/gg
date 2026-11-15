@@ -15,6 +15,9 @@
     <a href="https://github.com/karolsko/gg/actions/workflows/release.yml">
         <img src="https://img.shields.io/github/actions/workflow/status/karolsko/gg/release.yml?color=a6e3a1&labelColor=303446&style=for-the-badge&label=Release">
     </a>
+    <a href="https://github.com/karolsko/gg">
+        <img src="https://img.shields.io/github/repo-size/karolsko/gg?color=89b4fa&labelColor=303446&style=for-the-badge">
+    </a>
     <a href="https://github.com/karolsko/gg/blob/main/LICENSE">
         <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=MIT&logoColor=ca9ee6&colorA=313244&colorB=cba6f7"/>
     </a>
