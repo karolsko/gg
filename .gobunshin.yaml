@@ -22,6 +22,7 @@ builds:
   - id: gg
     main: .
     binary: gg
+    icon: resources/icon.png
     env:
       - CGO_ENABLED=0
     flags:
@@ -54,6 +55,8 @@ installers:
   - name: gg
     identifier: dev.karolsko.gg
     formats: [pkg, dmg, nsis]
+    icons:
+      dmg: resources/icon.png
 
 changelog:
   sort: asc
