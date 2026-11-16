@@ -45,7 +45,6 @@ Interactive rebase, staging individual lines, image diffs, blame, and Git LFS ar
 
 - Go `1.27.3` or newer, to build
 - `git`
-- [`rsvg-convert`](https://wiki.gnome.org/Projects/LibRsvg) when you redraw the icon
 
 ## 🛠️ Installation
 
@@ -81,16 +80,16 @@ The changes view lists unstaged and staged files. Select a file to read its diff
 
 The history view shows the graph for the selected branch, tag, or all commits. Select a commit, then a file, to read that change.
 
-| Action | macOS | Windows and Linux |
-| --- | --- | --- |
-| Open repository | `⌘O` | `Ctrl+O` |
-| Clone | `⇧⌘N` | `Ctrl+Shift+N` |
-| Fetch | `⇧⌘F` | `Ctrl+Shift+F` |
-| Pull | `⇧⌘L` | `Ctrl+Shift+L` |
-| Push | `⇧⌘P` | `Ctrl+Shift+P` |
-| Stash | `⇧⌘S` | `Ctrl+Shift+S` |
-| Refresh | `⌘R` | `Ctrl+R` |
-| Commit | `⌘↩` | `Ctrl+Enter` |
+| Action          | macOS | Windows and Linux |
+| --------------- | ----- | ----------------- |
+| Open repository | `⌘O`  | `Ctrl+O`          |
+| Clone           | `⇧⌘N` | `Ctrl+Shift+N`    |
+| Fetch           | `⇧⌘F` | `Ctrl+Shift+F`    |
+| Pull            | `⇧⌘L` | `Ctrl+Shift+L`    |
+| Push            | `⇧⌘P` | `Ctrl+Shift+P`    |
+| Stash           | `⇧⌘S` | `Ctrl+Shift+S`    |
+| Refresh         | `⌘R`  | `Ctrl+R`          |
+| Commit          | `⌘↩`  | `Ctrl+Enter`      |
 
 A branch with no upstream is published with `git push -u` to `origin`, or to the first remote when `origin` is missing.
 
@@ -114,14 +113,6 @@ A branch with no upstream is published with `git push -u` to `origin`, or to the
    ```sh
    go tool mygo dev
    ```
-
-1. **Redraw the icon**
-
-   ```sh
-   go run ./tools/mkicon
-   ```
-
-A tag that matches `v*` starts the [release workflow](.github/workflows/release.yml). [gobunshin](https://github.com/karolsko/gobunshin) builds the archives, Linux packages, and installers.
 
 ## 📜 License
 
