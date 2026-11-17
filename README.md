@@ -50,7 +50,7 @@ Interactive rebase, staging individual lines, image diffs, blame, and Git LFS ar
 
 ### 📦 Binary Releases
 
-Pre-compiled binaries for Linux, Windows, and macOS are available on the [Releases](https://github.com/karolsko/gg/releases) page.
+Pre-compiled binaries for Linux, Windows, and macOS are available on the [Releases](https://github.com/karolsko/gg/releases) page. The macOS disk image contains `gg.app`. Open that bundle, so Terminal stays closed.
 
 ### 🐹 Using Go
 

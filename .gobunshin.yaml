@@ -55,6 +55,7 @@ installers:
   - name: gg
     identifier: dev.karolsko.gg
     formats: [pkg, dmg, nsis]
+    app: true
     icons:
       dmg: resources/icon.png
 
